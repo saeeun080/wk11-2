@@ -1,0 +1,499 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Let's Describe It! Advanced</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;800&display=swap');
+
+*{box-sizing:border-box}
+body{margin:0;background:#f3f5fb;color:#29354a;font-family:'Noto Sans KR',sans-serif}
+header{background:linear-gradient(120deg,#435c9c,#8871c5);color:white;text-align:center;padding:35px 15px}
+header h1{font:36px Jua;margin:0 0 10px}
+header p{font-size:13px;line-height:1.7;margin:4px}
+.container{max-width:900px;margin:25px auto;padding:0 15px 50px}
+.card{background:white;border-radius:19px;padding:23px;margin-bottom:17px;box-shadow:0 4px 18px #2536530c}
+.progress{padding:16px 20px;background:white;border-radius:15px;margin-bottom:18px}
+.progress-row{display:flex;justify-content:space-between;font-size:13px;font-weight:700}
+.bar{height:9px;background:#e9edf5;border-radius:20px;margin-top:10px;overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,#557ed0,#a18bdc);transition:.3s}
+.tabs{display:flex;gap:10px;margin-bottom:18px}
+.tab{flex:1;padding:14px;border:0;border-radius:12px;background:white;color:#68748b;font-weight:800;cursor:pointer}
+.tab.active{background:#e8edff;color:#486bb4;outline:2px solid #bdcafa}
+.tag{font-size:11px;font-weight:800;letter-spacing:1px;color:#6378bb;background:#eef1ff;padding:7px 11px;border-radius:20px}
+h2{font-size:21px;margin:15px 0 7px}
+h3{font-size:15px;margin:21px 0 10px}
+.desc{font-size:13px;line-height:1.8;color:#8290a3}
+.scene{min-height:230px;background:linear-gradient(135deg,#e5efff,#f1eaff);border-radius:17px;margin:18px 0;padding:25px;text-align:center;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.scene .emoji{font-size:65px;line-height:1.65}
+.scene .emoji2{font-size:39px;letter-spacing:8px}
+.scene strong{font:22px Jua;color:#566ca8;margin-top:10px}
+.scene small{font-size:12px;color:#75829b;margin-top:7px}
+.mission{background:#fff8e9;border-left:4px solid #e9bb62;border-radius:9px;padding:15px;font-size:13px;line-height:2}
+.mission strong{color:#a97926}
+.question{margin:7px 0}
+.wordlist,.expressions{display:flex;flex-wrap:wrap;gap:8px}
+.word{background:#f0f3ff;padding:8px 11px;border-radius:9px;font-size:12px;color:#536ca8}
+.word b{margin-right:5px}
+.expression{background:#f2edff;color:#725db2;padding:9px 11px;border-radius:9px;font-size:12px}
+textarea{width:100%;min-height:150px;border:1.5px solid #dce2ed;border-radius:12px;padding:15px;font:14px 'Noto Sans KR';line-height:1.9;resize:vertical;outline:none}
+textarea:focus{border-color:#7797dc}
+button{cursor:pointer;font-family:inherit;font-weight:700;border:0}
+.primary{background:#547ed2;color:white;padding:13px 19px;border-radius:10px;font-size:13px}
+.secondary{background:#edf1f9;color:#586982;padding:12px 16px;border-radius:10px;font-size:13px}
+.record{background:#fff0f0;color:#d35d70;padding:12px 17px;border-radius:10px}
+.record.active{background:#d35d70;color:white}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:12px}
+.tip{font-size:11px;color:#919bad;line-height:1.8;margin-top:10px}
+.result{display:none;background:#f0f8f4;border:1px solid #d1e9da;padding:16px;border-radius:12px;margin-top:14px;font-size:13px;line-height:1.9}
+.result h3{margin:0 0 10px;color:#28865e}
+.example{display:none;background:#f5f2ff;padding:15px;border-radius:12px;font-size:13px;line-height:1.9;margin-top:12px}
+.example strong{color:#735db6}
+.nav{display:flex;gap:10px;margin-top:20px}
+.nav button{flex:1}
+.checks{font-size:13px;line-height:2.7}
+.checks label{display:block}
+footer{text-align:center;color:#9aa4b5;font-size:12px;padding:20px}
+@media(max-width:500px){header h1{font-size:29px}.card{padding:17px}.scene .emoji{font-size:48px}.tabs{gap:5px}.tab{font-size:12px}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🌎 Let's Describe It!</h1>
+<p>ADVANCED ENGLISH SPEAKING & WRITING</p>
+<p>Observe · Analyze · Explain · Express Your Opinion</p>
+</header>
+
+<div class="container">
+
+<div class="progress">
+<div class="progress-row">
+<span>🏆 My Challenge Progress</span>
+<span id="progressText">0 / 8 completed</span>
+</div>
+<div class="bar"><div class="fill" id="progressFill"></div></div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="setMode('picture',this)">🖼️ Complex Pictures</button>
+<button class="tab" onclick="setMode('situation',this)">💭 Challenging Situations</button>
+</div>
+
+<div class="card">
+<span class="tag" id="category">PICTURE ANALYSIS</span>
+<h2 id="title"></h2>
+<p class="desc" id="description"></p>
+
+<div class="scene">
+<div class="emoji" id="emoji"></div>
+<div class="emoji2" id="emoji2"></div>
+<strong id="sceneTitle"></strong>
+<small id="sceneSub"></small>
+</div>
+
+<div class="mission">
+<strong>🎯 YOUR CHALLENGE</strong>
+<div id="mission"></div>
+</div>
+
+<h3>🔑 Advanced Vocabulary</h3>
+<div class="wordlist" id="words"></div>
+
+<h3>💬 Useful Expressions</h3>
+<div class="expressions" id="expressions"></div>
+
+<h3>🧠 Think Deeper</h3>
+<p class="desc" id="thinking"></p>
+
+<div class="example" id="example">
+<strong>⭐ Model Answer</strong>
+<p id="exampleText"></p>
+</div>
+<button class="secondary" style="margin-top:12px" onclick="toggleExample()">모범 답안 확인하기</button>
+</div>
+
+<div class="card">
+<span class="tag">STEP 1 · SPEAKING CHALLENGE</span>
+<h2>🎤 Express Yourself!</h2>
+<p class="desc">주어진 그림이나 상황을 영어로 설명해 보세요. 단순한 묘사를 넘어 이유, 추측, 의견을 포함해 말해 보세요.</p>
+
+<div class="actions">
+<button class="record" id="recordBtn" onclick="record()">🎙️ Start Speaking</button>
+<button class="secondary" onclick="clearText('speechText')">Reset</button>
+</div>
+<p id="speechStatus" class="tip">마이크를 누르고 영어로 말해 보세요.</p>
+<textarea id="speechText" placeholder="Describe the situation in English..."></textarea>
+<button class="primary" style="margin-top:12px" onclick="evaluate('speech')">Check My Speaking</button>
+<div class="result" id="speechResult"></div>
+</div>
+
+<div class="card">
+<span class="tag">STEP 2 · WRITING CHALLENGE</span>
+<h2>✍️ Write Your Description!</h2>
+<p class="desc">최소 5~7문장을 작성해 보세요. 구체적인 묘사, 원인과 결과, 자신의 의견을 포함하면 좋습니다.</p>
+<textarea id="writingText" placeholder="In this picture, I can see...&#10;It seems that...&#10;One possible reason is...&#10;In my opinion..."></textarea>
+<div style="display:flex;justify-content:space-between;font-size:12px;color:#8893a5;margin:9px 0">
+<span>Recommended: 5–7 sentences</span>
+<span id="wordCount">0 words</span>
+</div>
+<button class="primary" onclick="evaluate('writing')">Check My Writing</button>
+<div class="result" id="writingResult"></div>
+</div>
+
+<div class="card">
+<span class="tag">STEP 3 · SELF-ASSESSMENT</span>
+<h2>⭐ How Well Did I Do?</h2>
+<p class="desc">영어 표현과 내용의 완성도를 스스로 평가해 보세요.</p>
+<div class="checks" id="checks">
+<label><input type="checkbox"> I described the main situation clearly.</label>
+<label><input type="checkbox"> I included specific details and examples.</label>
+<label><input type="checkbox"> I explained reasons or possible consequences.</label>
+<label><input type="checkbox"> I used advanced vocabulary and expressions.</label>
+<label><input type="checkbox"> I expressed my own thoughts or opinions.</label>
+<label><input type="checkbox"> I checked my grammar and sentence structure.</label>
+</div>
+<button class="primary" style="margin-top:15px" onclick="complete()">Complete This Challenge ✓</button>
+<p id="completeMessage" style="font-size:13px;color:#31815f"></p>
+</div>
+
+<div class="nav">
+<button class="secondary" onclick="move(-1)">← Previous</button>
+<button class="primary" onclick="move(1)">Next Challenge →</button>
+</div>
+</div>
+
+<footer>Keep thinking. Keep speaking. Keep improving! 🌟</footer>
+
+<script>
+const pictures=[
+{
+title:"The Unexpected Situation at the Airport",
+sub:"An airport during a flight delay",
+emoji:"✈️🧳👨‍👩‍👧",
+emoji2:"😟📱🕒☔",
+scene:"A Flight Delay",
+desc:"공항에서 발생한 예상치 못한 상황입니다. 여러 사람의 행동과 감정을 관찰하고 상황을 종합적으로 설명하세요.",
+mission:[
+"What might have caused the flight delay?",
+"How are the passengers reacting differently?",
+"What problems might the delay create for travelers?",
+"Imagine you are one of the passengers. What would you do?"
+],
+words:[["unexpected","예상치 못한"],["departure","출발"],["frustrated","좌절한"],["announcement","안내 방송"],["postpone","연기하다"],["alternative","대안"],["passenger","승객"]],
+expressions:["It appears that...","One possible reason is...","As a result,...","If I were in this situation,..."],
+thinking:"How can an airline minimize passengers' inconvenience? Should airlines be responsible for providing compensation when flights are delayed?",
+example:"The picture shows a crowded airport where several passengers are waiting for their flights. It appears that their departure has been delayed because of bad weather. Some passengers look frustrated, while others are checking their phones for updates. The delay might cause problems for people who have connecting flights. If I were one of the passengers, I would contact the airline to ask for more information. I would also consider alternative travel arrangements if necessary."
+},
+{
+title:"An Environmental Problem in the City",
+sub:"A city facing an environmental challenge",
+emoji:"🏙️🚗🏭",
+emoji2:"🌫️🚴🌳♻️",
+scene:"Urban Air Pollution",
+desc:"도시 환경 문제를 다룬 그림입니다. 문제의 원인과 영향을 분석하고 해결책을 제안하세요.",
+mission:[
+"What environmental problem is illustrated?",
+"What human activities might contribute to this problem?",
+"How could this situation affect people's health?",
+"What practical solutions could the government and citizens introduce?"
+],
+words:[["pollution","오염"],["emission","배출"],["exhaust fumes","배기가스"],["sustainable","지속 가능한"],["pedestrian","보행자"],["renewable","재생 가능한"],["contribute to","~에 기여하다"]],
+expressions:["One of the major causes is...","This may lead to...","It is essential to...","A practical solution would be..."],
+thinking:"Should individuals or governments take greater responsibility for environmental protection? Explain your position with examples.",
+example:"The picture illustrates a city suffering from serious air pollution. A large number of vehicles and factories may be contributing to the problem. As a result, residents could experience respiratory problems and reduced quality of life. One effective solution would be to encourage people to use public transportation. In addition, the government should invest in renewable energy. Although these changes may require time and money, they are essential for creating a healthier environment."
+},
+{
+title:"The Mystery in the Classroom",
+sub:"Something unusual has happened at school",
+emoji:"🏫📚🪟",
+emoji2:"😮🔍📖📝",
+scene:"A Classroom Mystery",
+desc:"교실에서 무언가 예상치 못한 일이 일어났습니다. 단서를 바탕으로 상황을 추측하고 논리적으로 설명하세요.",
+mission:[
+"What might have happened before this moment?",
+"Why do some students look surprised?",
+"What could explain the unusual situation?",
+"What do you think will happen next?"
+],
+words:[["evidence","증거"],["suspicious","의심스러운"],["investigate","조사하다"],["assumption","추측"],["incident","사건"],["reveal","밝히다"],["consequence","결과"]],
+expressions:["It is possible that...","Judging from...","This suggests that...","There is a chance that...","It might have been..."],
+thinking:"Is it always reasonable to make a judgment based on limited evidence? Explain why or why not.",
+example:"The classroom seems unusually quiet, and several students appear to be surprised by something. Judging from their expressions, an unexpected incident may have occurred. It is possible that someone discovered something unusual near the window. However, there is not enough evidence to determine exactly what happened. I would investigate the situation before making any assumptions. This example shows why it is important to think critically rather than jump to conclusions."
+},
+{
+title:"The Community Volunteer Project",
+sub:"People working together to improve their neighborhood",
+emoji:"👩‍🌾🏘️👨‍👩‍👧",
+emoji2:"🌱🧹🤝🌳",
+scene:"A Community Project",
+desc:"지역 주민들이 공동체를 위해 봉사하는 장면입니다. 참여자들의 역할과 공동체에 미치는 영향을 설명하세요.",
+mission:[
+"What activities are the volunteers participating in?",
+"Why might community members have organized this project?",
+"What challenges could they face?",
+"How could this project benefit the neighborhood in the long term?"
+],
+words:[["volunteer","자원봉사자"],["community","공동체"],["cooperate","협력하다"],["initiative","주도적인 활동"],["contribute","기여하다"],["neighborhood","지역 사회"],["meaningful","의미 있는"]],
+expressions:["By working together,...","This initiative aims to...","Not only does it..., but it also...","In the long run,..."],
+thinking:"Do you think community service should be a required part of school education? Support your opinion with specific reasons.",
+example:"The picture shows a group of volunteers working together to improve their neighborhood. Some people are planting trees, while others are cleaning the streets. This initiative aims to create a cleaner and more welcoming environment. By working together, residents can develop stronger relationships and a sense of responsibility. In the long run, such projects can make the community more sustainable. I believe that community service should be encouraged in schools because it helps students become responsible citizens."
+}
+];
+
+const situations=[
+{
+title:"A Difficult Ethical Decision",
+sub:"You discover that your close friend cheated on an important exam.",
+emoji:"📝🏫👥",
+emoji2:"🤔⚖️😟",
+scene:"Honesty vs. Friendship",
+desc:"친한 친구가 중요한 시험에서 부정행위를 했다는 사실을 알게 되었습니다. 우정과 정직 사이에서 어떤 선택을 할지 고민해 보세요.",
+mission:[
+"How would you feel after discovering what your friend did?",
+"Would you confront your friend directly? Why or why not?",
+"What could happen if you ignored the situation?",
+"How would you balance honesty and friendship?"
+],
+words:[["ethical","윤리적인"],["integrity","정직성"],["consequence","결과"],["confront","대면하다"],["betray","배신하다"],["responsibility","책임"],["principle","원칙"]],
+expressions:["If I were in that position,...","Although I understand that...","I would rather... than...","It is important to consider..."],
+thinking:"Is telling the truth always the right decision, even if it hurts someone you care about? Explain your opinion.",
+example:"If I discovered that my close friend had cheated on an important exam, I would feel disappointed and conflicted. Although I value our friendship, I believe academic honesty is essential. I would first talk to my friend privately and explain why cheating is a serious issue. I would encourage my friend to take responsibility for their actions. However, if the behavior continued, I might have to inform a teacher. In my opinion, a true friendship should be based on honesty and mutual respect."
+},
+{
+title:"An Unexpected Group Project Conflict",
+sub:"Your team members disagree about how to complete an important project.",
+emoji:"👩‍💻📊👨‍🎓",
+emoji2:"💬😠🤝📋",
+scene:"Teamwork Under Pressure",
+desc:"팀 프로젝트를 진행하는 과정에서 의견 충돌이 발생했습니다. 갈등의 원인을 분석하고 합리적인 해결책을 제시하세요.",
+mission:[
+"What might be the main reason for the disagreement?",
+"How could the conflict affect the final project?",
+"What should each team member do to resolve the problem?",
+"How would you encourage effective teamwork?"
+],
+words:[["conflict","갈등"],["compromise","타협"],["perspective","관점"],["deadline","마감 기한"],["collaborate","협력하다"],["negotiate","협상하다"],["contribution","기여"]],
+expressions:["From my perspective,...","Rather than arguing,...","One possible approach is...","We need to reach an agreement."],
+thinking:"Is it better for a team to have one strong leader or to make decisions through discussion? Give reasons for your answer.",
+example:"The situation describes a conflict among students working on an important group project. The disagreement may have occurred because team members have different ideas and expectations. If the conflict continues, they might miss the deadline or produce a poor-quality project. From my perspective, each member should have an opportunity to explain their opinions. Rather than arguing, they should identify their common goal and negotiate a reasonable compromise. Effective communication is essential for successful teamwork."
+},
+{
+title:"Living in a World of Artificial Intelligence",
+sub:"Your school is considering introducing AI learning tools.",
+emoji:"🏫🤖💻",
+emoji2:"📚🧠🔍⚖️",
+scene:"The Future of Education",
+desc:"학교에서 AI 학습 도구를 도입하려고 합니다. 교육적 장점과 잠재적인 문제점을 균형 있게 분석하세요.",
+mission:[
+"How could AI tools improve students' learning experiences?",
+"What problems might occur if students rely too heavily on AI?",
+"How can teachers use AI responsibly?",
+"Do you support introducing AI tools into classrooms?"
+],
+words:[["artificial intelligence","인공지능"],["personalized","개인 맞춤형"],["dependency","의존성"],["critical thinking","비판적 사고"],["accessibility","접근성"],["evaluate","평가하다"],["ethical concern","윤리적 우려"]],
+expressions:["One significant advantage is...","On the other hand,...","It is worth considering that...","Rather than replacing..., AI should..."],
+thinking:"Will artificial intelligence eventually replace teachers? Explain your position by considering both the benefits and limitations of AI.",
+example:"Artificial intelligence has the potential to transform education. One significant advantage is that AI can provide personalized learning materials based on individual students' needs. It can also offer immediate feedback and make learning more accessible. On the other hand, excessive dependence on AI may weaken students' critical thinking skills. Teachers should therefore guide students in using these tools responsibly. Rather than replacing teachers, AI should be used to support classroom instruction. I believe that a balance between technology and human interaction is essential for effective education."
+},
+{
+title:"A Natural Disaster and Community Response",
+sub:"A severe storm has damaged several areas in your town.",
+emoji:"🌧️🏚️🚑",
+emoji2:"🚧🆘🤝🏠",
+scene:"Emergency Response",
+desc:"폭풍으로 지역 사회에 피해가 발생했습니다. 긴급 상황에서 필요한 조치와 장기적인 대책을 설명하세요.",
+mission:[
+"What problems might residents be experiencing?",
+"Which actions should be taken immediately?",
+"How can local authorities and citizens cooperate?",
+"What long-term preparations could prevent similar damage?"
+],
+words:[["disaster","재난"],["evacuation","대피"],["emergency","비상 상황"],["shelter","대피소"],["infrastructure","기반 시설"],["resilience","회복력"],["preventive measure","예방 조치"]],
+expressions:["The most urgent priority is...","In response to...","It is crucial that...","In the long term,..."],
+thinking:"Should governments spend more money on preventing natural disasters or recovering from them? Explain your reasoning.",
+example:"A severe storm has caused significant damage to several areas in the town. Some residents may have lost their homes, while others might be unable to travel safely. The most urgent priority is to ensure everyone's safety through evacuation and emergency assistance. Local authorities should provide temporary shelters and medical support. In the long term, the government needs to improve infrastructure and develop better disaster prevention systems. I believe preparation is just as important as recovery because it can reduce future damage."
+}
+];
+
+let mode="picture",index=0;
+let completed=new Set(),recognition=null,recording=false;
+
+function data(){
+return mode==="picture"?pictures[index]:situations[index];
+}
+
+function setMode(m,btn){
+stopRecord();
+mode=m;index=0;
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+btn.classList.add("active");
+render();
+}
+
+function render(){
+const p=data();
+document.getElementById("category").textContent=
+mode==="picture"?"COMPLEX PICTURE ANALYSIS":"CRITICAL THINKING & SITUATIONS";
+document.getElementById("title").textContent=p.title;
+document.getElementById("description").textContent=p.desc;
+document.getElementById("emoji").textContent=p.emoji;
+document.getElementById("emoji2").textContent=p.emoji2;
+document.getElementById("sceneTitle").textContent=p.scene;
+document.getElementById("sceneSub").textContent=p.sub;
+
+document.getElementById("mission").innerHTML=p.mission.map((q,i)=>
+`<div class="question"><b>${i+1}.</b> ${q}</div>`).join("");
+
+document.getElementById("words").innerHTML=p.words.map(w=>
+`<span class="word"><b>${w[0]}</b> ${w[1]}</span>`).join("");
+
+document.getElementById("expressions").innerHTML=p.expressions.map(e=>
+`<span class="expression">${e}</span>`).join("");
+
+document.getElementById("thinking").textContent=p.thinking;
+document.getElementById("exampleText").textContent=p.example;
+document.getElementById("example").style.display="none";
+
+["speechText","writingText"].forEach(id=>document.getElementById(id).value="");
+["speechResult","writingResult"].forEach(id=>document.getElementById(id).style.display="none");
+document.querySelectorAll("#checks input").forEach(x=>x.checked=false);
+document.getElementById("completeMessage").textContent="";
+document.getElementById("speechStatus").textContent="마이크를 누르고 영어로 말해 보세요.";
+updateCount();updateProgress();
+stopRecord();
+}
+
+function toggleExample(){
+const el=document.getElementById("example");
+el.style.display=el.style.display==="block"?"none":"block";
+}
+
+function clearText(id){
+document.getElementById(id).value="";
+if(id==="writingText")updateCount();
+}
+
+function updateCount(){
+const t=document.getElementById("writingText").value.trim();
+document.getElementById("wordCount").textContent=
+(t?t.split(/\s+/).length:0)+" words";
+}
+document.getElementById("writingText").addEventListener("input",updateCount);
+
+function evaluate(type){
+const isSpeech=type==="speech";
+const text=document.getElementById(isSpeech?"speechText":"writingText").value.trim();
+const result=document.getElementById(isSpeech?"speechResult":"writingResult");
+result.style.display="block";
+
+if(!text){
+result.innerHTML="<h3>✏️ Start Your Challenge!</h3><p>먼저 영어로 답변을 작성하거나 말해 보세요.</p>";
+return;
+}
+
+const words=text.match(/[a-zA-Z]+(?:'[a-zA-Z]+)?/g)||[];
+const sentences=text.split(/[.!?]+/).filter(x=>x.trim());
+const lower=text.toLowerCase();
+const vocab=data().words.filter(w=>lower.includes(w[0].toLowerCase()));
+const connectors=["because","although","however","therefore","while","if","since","moreover","although","as a result","on the other hand","in addition"];
+const used=connectors.filter(w=>lower.includes(w));
+const opinion=/i think|i believe|in my opinion|from my perspective|i would|i feel/i.test(lower);
+const reason=/because|since|as a result|therefore|due to/i.test(lower);
+
+let feedback=[];
+feedback.push(words.length>=60?"훌륭해요! 충분한 분량으로 표현했어요.":words.length>=30?"좋아요! 조금 더 구체적인 내용을 추가해 보세요.":"설명을 더 확장해 보세요. 5~7문장에 도전해 보세요.");
+feedback.push(sentences.length>=5?"문장 수가 충분합니다!":"문장을 5개 이상으로 늘려 보세요.");
+feedback.push(vocab.length>=3?"핵심 어휘를 다양하게 활용했어요.":"제시된 고급 어휘를 더 활용해 보세요.");
+feedback.push(used.length>=2?"연결어를 활용해 문장의 흐름을 만들었어요.":"However, because, therefore 등의 연결어를 활용해 보세요.");
+feedback.push(opinion?"자신의 의견을 명확하게 표현했어요.":"자신의 생각이나 의견을 추가해 보세요.");
+feedback.push(reason?"이유 또는 근거를 제시했어요.":"주장에 대한 이유나 근거를 추가해 보세요.");
+
+result.innerHTML=`
+<h3>🌟 Your Learning Feedback</h3>
+<p><b>Word Count:</b> ${words.length} words</p>
+<p><b>Sentence Count:</b> ${sentences.length} sentences</p>
+<p><b>Advanced Vocabulary:</b> ${vocab.length? vocab.map(w=>w[0]).join(", "):"Not detected"}</p>
+<p><b>Connectors:</b> ${used.length?used.join(", "):"Not detected"}</p>
+<hr style="border:0;border-top:1px solid #d5e8dc">
+${feedback.map(x=>`<p>✓ ${x}</p>`).join("")}
+<p style="color:#34805d"><b>Remember:</b> 이 결과는 표현 확장을 위한 자동 점검입니다. 문법의 정확성이나 내용의 타당성을 완전히 평가하는 AI 채점은 아닙니다.</p>
+`;
+}
+
+function record(){
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){
+document.getElementById("speechStatus").textContent="음성 인식이 지원되지 않습니다. 직접 입력해 주세요.";
+return;
+}
+if(recording){stopRecord();return;}
+
+recognition=new SR();
+recognition.lang="en-US";
+recognition.continuous=true;
+recognition.interimResults=true;
+recognition.onstart=()=>{
+recording=true;
+document.getElementById("recordBtn").textContent="⏹ Stop Recording";
+document.getElementById("recordBtn").classList.add("active");
+document.getElementById("speechStatus").textContent="🔴 Listening... Speak in English!";
+};
+recognition.onresult=e=>{
+let final="",interim="";
+for(let i=0;i<e.results.length;i++){
+if(e.results[i].isFinal)final+=e.results[i][0].transcript+" ";
+else interim+=e.results[i][0].transcript;
+}
+document.getElementById("speechText").value=final+interim;
+};
+recognition.onerror=e=>{
+document.getElementById("speechStatus").textContent="음성 인식 오류: "+e.error;
+stopRecord();
+};
+recognition.onend=()=>{
+recording=false;
+document.getElementById("recordBtn").textContent="🎙️ Start Speaking";
+document.getElementById("recordBtn").classList.remove("active");
+document.getElementById("speechStatus").textContent="음성 인식이 종료되었습니다. 내용을 확인하세요.";
+};
+try{recognition.start();}catch(e){}
+}
+
+function stopRecord(){
+if(recognition){try{recognition.stop();}catch(e){}recognition=null;}
+recording=false;
+const b=document.getElementById("recordBtn");
+if(b){b.textContent="🎙️ Start Speaking";b.classList.remove("active");}
+}
+
+function complete(){
+const checked=[...document.querySelectorAll("#checks input")].filter(x=>x.checked).length;
+if(checked===6){
+completed.add(mode+"-"+index);
+document.getElementById("completeMessage").textContent="🎉 Excellent! Challenge completed!";
+}else{
+document.getElementById("completeMessage").textContent=`${checked}/6 completed. 나머지 항목도 확인해 보세요!`;
+}
+updateProgress();
+}
+
+function updateProgress(){
+document.getElementById("progressText").textContent=completed.size+" / 8 completed";
+document.getElementById("progressFill").style.width=(completed.size/8*100)+"%";
+}
+
+function move(dir){
+stopRecord();
+const max=mode==="picture"?pictures.length:situations.length;
+index=(index+dir+max)%max;
+render();
+window.scrollTo({top:0,behavior:"smooth"});
+}
+
+render();
+</script>
+</body>
+</html>
